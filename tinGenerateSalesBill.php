@@ -20,10 +20,10 @@ else
 {
 	$clientDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id=$clientId");
 	$clientDataQueryResult=$db->fetchNextObject($clientDataQuery);
-	$clientName = $clientDataQueryResult->client_firm_name;
+	$clientName = $clientDataQueryResult->client_name;
 	$clientAddress = $clientDataQueryResult->client_address;
 	$clientPhone = $clientDataQueryResult->client_mobile;
-	$clientType = $clientDataQueryResult->client_role;
+	$clientEmail = $clientDataQueryResult->client_email;
 	$clientTin = $clientDataQueryResult->client_tin;
 }
  

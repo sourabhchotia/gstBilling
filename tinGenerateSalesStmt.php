@@ -31,7 +31,7 @@ else
 	
 	$pageResult1=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id=$clientId");
 	$row1=$db->fetchNextObject($pageResult1);
-	$clt = $row1->client_firm_name;
+	$clt = $row1->client_name;
 }
 
 $pageResult=$db->query($query);
@@ -83,13 +83,13 @@ $pageResult=$db->query($query);
 	<table height="100%" width="100%" frame="border">
 		<tr>
 			<td style="padding-left:1%; padding-right:1%">
-			<div style="float:left">TIN :- <?php echo $selfDataQueryResult->client_tin; ?></div>
+			<!-- <div style="float:left">TIN :- <?php echo $selfDataQueryResult->client_tin; ?></div> -->
 			<div style="float:right">PHONE :- <?php echo $selfDataQueryResult->client_mobile; ?></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<br><div align="center"><b><font size="+2"><?php echo $selfDataQueryResult->client_firm_name; ?></font></b></div>
+			<br><div align="center"><b><font size="+2"><?php echo $selfDataQueryResult->client_name; ?></font></b></div>
 			</td>
 		</tr>
 		<tr>
