@@ -81,7 +81,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 	<table height="100%" width="100%" frame="border">
 		<tr>
 			<td style="padding-left:1%; padding-right:1%">
-			<div style="float:left">GSTIN :- <?php echo $selfDataQueryResult->client_tin; ?></div>
+			<!-- <div style="float:left">GSTIN :- <?php echo $selfDataQueryResult->client_tin; ?></div> -->
 			<div style="float:right">PHONE :- <?php echo $selfDataQueryResult->client_mobile; ?></div>
 			</td>
 		</tr>
@@ -92,7 +92,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 		</tr>
 		<tr>
 			<td>
-			<div align="center"><b><h3><?php echo $selfDataQueryResult->client_firm_name; ?></h3></b></div>
+			<div align="center"><b><h3><?php echo $selfDataQueryResult->client_name; ?></h3></b></div>
 			</td>
 		</tr>
 		<tr>
@@ -221,12 +221,13 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 		<tr>
 			<td width="80%">
 				<div align="right">Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-				<div align="center">Add : Round Off (+)</div><br>
+				<div align="center">Fuel Surcharge</div><br>
 			</td>
 			
 			<td align="right" style='padding-right:1%'>
-			<?php $totalAmt = number_format((float)$total, 2, '.', ''); echo $totalAmt; ?><br>
-			<?php echo number_format((float)(ceil($totalAmt)-$totalAmt), 2, '.', ''); ?><br>
+				<table>
+			<tr><td id="total"><?php $totalAmt = number_format((float)$total, 2, '.', ''); echo $totalAmt; ?></td></tr>
+			<tr><td id="fuel"><input type="text" name="fuel" style="border: none; width: 50px;"></td></tr></table>
 			</td>
 		</tr>
 	</table>
@@ -246,8 +247,8 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 		<tr>
 			<td width="80%" style="padding-left:1%; padding-right:1%">
 				<b><br><br>
-				<div align="left"><?php echo "CGST @$cgst% = ".number_format((float)$totalPrice, 2, '.', '')." , Amount=".number_format((float)$cgstAmount, 2, '.', '');?></div><br>
-				<div align="left"><?php echo "RGST @$rgst% = ".number_format((float)$totalPrice, 2, '.', '')." , Amount=".number_format((float)$rgstAmount, 2, '.', '');?></div>
+				<!-- <div align="left"><?php echo "CGST @$cgst% = ".number_format((float)$totalPrice, 2, '.', '')." , Amount=".number_format((float)$cgstAmount, 2, '.', '');?></div><br>
+				<div align="left"><?php echo "RGST @$rgst% = ".number_format((float)$totalPrice, 2, '.', '')." , Amount=".number_format((float)$rgstAmount, 2, '.', '');?></div> -->
 				<br><br>
 				<div align="left"><?php echo Show_Amount_In_Words(ceil($totalAmt));?> Only</div></b><br>
 			</td>
@@ -266,7 +267,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 			
 			<td style="padding-left:1%; padding-right:1%">
 			<br><div align="left" style="border-bottom:dashed"><b>Receiver's Signature : </b><br><br></div>  
-			<div align="right"><h3>For <?php echo $selfDataQueryResult->client_firm_name; ?></h3></div><br><br><br>
+			<div align="right"><h3>For <?php echo $selfDataQueryResult->client_name; ?></h3></div><br><br><br>
 			<div align="right"><h3>Authorised Signatory</h3></div><br>
 			</td>
 		</tr>

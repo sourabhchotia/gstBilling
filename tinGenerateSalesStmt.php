@@ -6,7 +6,7 @@ $clientId = $_REQUEST['clt'];
 $startDate = $_REQUEST['sDt']; 
 $endDate = $_REQUEST['eDt']; 
 
-$selfDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_role='SELF'");
+$selfDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id='".$clientId."'");
 $selfDataQueryResult=$db->fetchNextObject($selfDataQuery);
 
 

@@ -13,8 +13,8 @@
 						
 						
 						
-						<!-- <li class="nav-header hidden-tablet">Billing Section</li>
-						<li title="Sales Billing"><a class="ajax-link" href="<?php echo FILE_INDEX."?c=esBi" ?>"><i class="icon-arrow-right"></i><span class="hidden-tablet">Sales Billing</span></a></li> -->
+						<li class="nav-header hidden-tablet">Billing Section</li>
+						<li title="Sales Billing"><a class="ajax-link" href="<?php echo FILE_INDEX."?c=esBi" ?>"><i class="icon-arrow-right"></i><span class="hidden-tablet">Sales Billing</span></a></li>
 						<!-- <li title="Loacal Billing"><a class="ajax-link" href="<?php echo FILE_INDEX."?c=alBi" ?>"><i class="icon-align-justify"></i><span class="hidden-tablet"> Local Billing</span></a></li> -->
 					
 					
