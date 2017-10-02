@@ -8,13 +8,13 @@ $billDate = $_POST['billdate'];
 
 $selfDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id=$clientId");
 $selfDataQueryResult=$db->fetchNextObject($selfDataQuery); 
-if($clientId==1)
+if($clientId==0)
 {
 	$clientName = $_POST['clientName'];
 	$clientAddress = $_POST['clientAddress'];
 	$clientPhone = $_POST['clientPhone'];
 	$clientType = '';
-	$clientTin = '';
+	// $clientTin = '';
 }
 else
 {
@@ -24,7 +24,7 @@ else
 	$clientAddress = $clientDataQueryResult->client_address;
 	$clientPhone = $clientDataQueryResult->client_mobile;
 	$clientEmail = $clientDataQueryResult->client_email;
-	$clientTin = $clientDataQueryResult->client_tin;
+	// $clientTin = $clientDataQueryResult->client_tin;
 }
  
 
@@ -71,6 +71,32 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 	<link href='css/uploadify.css' rel='stylesheet'>
 	<link rel="shortcut icon" href="img/logo1.png">
 
+	<script type="text/javascript">
+
+		 // $(document).click(function(e){
+   //      if ($(e.target).is('#fuel,#fuel *')) {
+   //          return;
+   //      }
+   //      else
+   //      {
+   //          alert("Hi");
+            
+   //      }
+   //  });
+		function grand{
+
+				alert("hello");
+				var total = <?php echo $totalAmt; ?>;
+				alert(total);
+				var fuelSurcharge = document.getElementById("fuel").value;
+
+				var gTotal = total + fuelSurcharge;
+				document.getElementById("gtotal").value = gTotal;
+
+			return true;
+		}
+	</script>
+
 </head>
 <body>
 	
@@ -92,12 +118,17 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 		</tr>
 		<tr>
 			<td>
-			<div align="center"><b><h3><?php echo $selfDataQueryResult->client_name; ?></h3></b></div>
+			<div align="center"><b><h1>SURAJ COURIER SERVICES</h1></b></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<div align="center"><b><h5>	<?php echo $selfDataQueryResult->client_address; ?></h5></b></div><br>
+			<div align="center"><b><h4>C-19, Singh Bhoomi, Gayatri Marg, Khatipura</h4></b></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<div align="center"><b><h4>Jaipur</h4></b></div><br>
 			</td>
 		</tr>
 	</table>
@@ -109,8 +140,8 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 			Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :- &nbsp;&nbsp;&nbsp;<b><?php echo $clientName; ?></b><br>
 			Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientAddress; ?><br>
 			Contact No &nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientPhone; ?><br>
-			Party Type &nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientType; ?><br>
-			Party GSTin &nbsp;&nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientTin;?><br><br>
+			Party Type &nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientEmail; ?><br>
+			<!-- Party GSTin &nbsp;&nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientTin;?><br><br> -->
 			</td>
 			
 			<td style="padding-left:1%; padding-right:1%;" valign="top">
@@ -124,21 +155,20 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 	<table height="100%" width="100%" frame="border" border="1">
 		  <thead>
 			  <tr>
-				  <th>S.N.</th>
-				  <th align="left">Description Of Goods</th>
-				  <th>Quantity</th>
-				  <th>Unit Price</th>
-				  <th>Total Price</th>
-				  <th>CGST %</th>
-				  <th>CGST Amount</th>
-				  <th>RGST %</th>
-				  <th>RGST Amount</th>
-				  <th>Amount (Rs.)</th>                                          
-			  </tr>
+				 <th>S.N.</th>
+				  <th>Consignment No.</th>
+				  <th>Date</th>
+				  <th>Item</th>
+				  <th>Weight in kg</th>
+				  <th>Rate</th>
+				  <th>From</th>
+				  <th>Destination</th> 
+				  <th>Amount</th>                                        
+			  </tr>                                          
 		  </thead>   
 		  <tbody>
 			 <?php
-			 	$total=0; $pcs=0; $totalPrice=0; $cgst=0; $cgstAmount=0; $rgst=0; $rgstAmount=0;
+			 	$total=0; $date=0; $item=0; $weight=0; $rate=0; $from=0; $to=0;
 				
 				foreach ($_POST['salesData'] as $value) 
 				{
@@ -165,35 +195,35 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 							
 							if($key==2)
 							{
-								$pcs = $pcs+$data;
+								$date = $data;
+							}
+							
+							if($key==3)
+							{
+								$item = $data;
 							}
 							
 							if($key==4)
 							{
-								$totalPrice = $totalPrice+$data;
+								$weight = $weight;
 							}
 							
 							if($key==5)
 							{
-								$cgst = $data;
+								$rate = $data;
 							}
 							
 							if($key==6)
 							{
-								$cgstAmount = $cgstAmount+$data;
+								$from = $data;
 							}
 							
 							if($key==7)
 							{
-								$rgst = $rgst;
+								$to = $data;
 							}
 							
 							if($key==8)
-							{
-								$rgstAmount = $rgstAmount+$data;
-							}
-							
-							if($key==9)
 							{
 								$total = $total+$data;
 							}
@@ -221,24 +251,23 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 		<tr>
 			<td width="80%">
 				<div align="right">Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-				<div align="center">Fuel Surcharge</div><br>
+				<div align="right">Fuel Surcharge</div><br>
 			</td>
 			
 			<td align="right" style='padding-right:1%'>
 				<table>
 			<tr><td id="total"><?php $totalAmt = number_format((float)$total, 2, '.', ''); echo $totalAmt; ?></td></tr>
-			<tr><td id="fuel"><input type="text" name="fuel" style="border: none; width: 50px;"></td></tr></table>
+			<tr><td><input type="text" id="fuel" name="fuel" onfocusout="grand();" style="border: none; width: 50px;"></td></tr></table>
 			</td>
 		</tr>
 	</table>
-	
 	<table height="100%" width="100%" frame="border" border="1">
 		<tr>
 			<td width="80%">
-				<b><div align="center">Grand Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $pcs;?> Pcs. </div></b>
+				<b><div align="right">Grand Total</div></b>
 			</td>
 			<td align="right" style='padding-right:1%'>
-				<b><div><?php echo number_format((float)(ceil($totalAmt)), 2, '.', ''); ?></div></b>
+				<b><div id="gtotal"></div></b>
 			</td>
 		</tr>
 	</table>
@@ -247,9 +276,6 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 		<tr>
 			<td width="80%" style="padding-left:1%; padding-right:1%">
 				<b><br><br>
-				<!-- <div align="left"><?php echo "CGST @$cgst% = ".number_format((float)$totalPrice, 2, '.', '')." , Amount=".number_format((float)$cgstAmount, 2, '.', '');?></div><br>
-				<div align="left"><?php echo "RGST @$rgst% = ".number_format((float)$totalPrice, 2, '.', '')." , Amount=".number_format((float)$rgstAmount, 2, '.', '');?></div> -->
-				<br><br>
 				<div align="left"><?php echo Show_Amount_In_Words(ceil($totalAmt));?> Only</div></b><br>
 			</td>
 		</tr>

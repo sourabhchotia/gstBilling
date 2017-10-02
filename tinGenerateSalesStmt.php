@@ -80,51 +80,47 @@ $pageResult=$db->query($query);
 	
 	<br><br>
 	
-	<table height="100%" width="100%" frame="border">
+		<table height="100%" width="100%" frame="border">
 		<tr>
 			<td style="padding-left:1%; padding-right:1%">
-			<!-- <div style="float:left">TIN :- <?php echo $selfDataQueryResult->client_tin; ?></div> -->
-			<div style="float:right">PHONE :- <?php echo $selfDataQueryResult->client_mobile; ?></div>
+			<!-- <div style="float:left">GSTIN :- <?php echo $selfDataQueryResult->client_tin; ?></div> -->
+			<div style="float:right">PHONE :-(+91) 9829317670</div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<br><div align="center"><b><font size="+2"><?php echo $selfDataQueryResult->client_name; ?></font></b></div>
+			<div align="center"><b><u>TAX INVOICE</u></b></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<div align="center"><?php echo $selfDataQueryResult->client_address; ?></div>
+			<div align="center"><b><h1>SURAJ COURIER SERVICES</h1></b></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<div align="center"><b><font size="+1">Sales Statements</font></b></div>
-			</td>
-		<tr>
-		</tr>
-			<td>
-			<div align="center"><font size="+1">From (<?php echo date("d-m-Y", strtotime($startDate))." To ".date("d-m-Y", strtotime($endDate)) ?>)</font></div>
+			<div align="center"><b><h4>C-19, Singh Bhoomi, Gayatri Marg, Khatipura</h4></b></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<div align="center"><b><font size="+1">Account : <?php echo $clt; ?> </font></b></div>
+			<div align="center"><b><h4>Jaipur</h4></b></div><br>
 			</td>
 		</tr>
 	</table>
-	
 	<table height="100%" width="100%" frame="border" border="1">
-		  <thead>
+		   <thead>
 			  <tr>
+				 <th>S.N.</th>
+				  <th>Consignment No.</th>
 				  <th>Date</th>
-				  <th>Client Name</th>
-				  <th>Bill Number</th>
-				  <th>Particulars</th>
-				  <th>Quantity</th>
-				  <th>Amount (Rs)</th>
-				  <th>Total Amount (Rs)</th>
-			  </tr>
+				  <th>Item</th>
+				  <th>Weight in kg</th>
+				  <th>Rate</th>
+				  <th>From</th>
+				  <th>Destination</th> 
+				  <th>Amount</th>                                        
+			  </tr>                                          
 		  </thead>   
 		  <tbody>	
 			  <?php

@@ -121,14 +121,14 @@ function myCalFunction(idx)
 		amtNodes[idx].innerText=amount;
 		
 		var snD = parseInt(document.getElementsByName('sn')[idx].innerText);
-		var descD = document.getElementsByName('desc')[idx].innerText;
-		var ttlPriceD = (untPrice*quantity).toFixed();
-		var vatAmtD = (vatAmt*quantity).toFixed();
-		var cgstPer = vat/2;
-		var cgstAmt = vatAmtD/2;
-		var rgstPer = vat/2;
-		var rgstAmt = vatAmtD/2;
-		var allData = [snD,descD,quantity,untPrice,ttlPriceD,cgstPer,cgstAmt,rgstPer,rgstAmt,amount];
+		var cno = document.getElementsByName('cno')[idx].innerText;
+		var date = document.getElementsByName('date')[idx].innerText;
+		var item = document.getElementsByName('item')[idx].innerText;
+		var weight = document.getElementsByName('weight')[idx].innerText;
+		var rate = document.getElementsByName('rate')[idx].innerText;
+		var from = document.getElementsByName('from')[idx].innerText;
+		var to = document.getElementsByName('to')[idx].innerText;
+		var allData = [snD,cno,date,item,weight,rate,from,to,amount];
 		
 		document.getElementsByName('salesData[]')[idx].value = allData;
 		
