@@ -1,0 +1,27 @@
+											GstBilling version 1.0.1
+
+
+											Authors : Sourabh Chotia and Saurabh Kumar.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
+	
+	Initial Version.
+
+
+	Description : 
+
+	It is a simple billing system for courier services company.
+	Company can add entries for packets to be delivered by a client from one location to another. 
+	Company can add its client and fix rates for the client in per kg formate and the amount will be calculated on the basis of the weight of the packet in grams.
+	Company will be able to print the receipt of the packet entry for the client.
+	Company can also print detailed statement of all the packets delivery for a specif client between selected dates.
+	Company can also print detailed complete statement of packets for a specific client or whole statement.
+
+	Upcoming changes : 
+
+	-> Company will be able to add different rates for different destination for a specific client(according to weight).
+	-> Live searching for the client name while packet entry is done.
+	-> rates will be taken on the basis of the client name, weight and destination.
+	-> UI modification. 											
+

@@ -1,91 +1,3 @@
-<?php
-/*if(isset($_POST['save']))
-{
-  	if($_REQUEST['name']=='' || $_REQUEST['city']=='' || $_REQUEST['rate']=='' || $_REQUEST['address']=='' || $_REQUEST['contact']=='')
-	{
-	 $_SESSION['msg']="<font color='#FF0000'>Please Enter All The Mandotry fields!</font>";
-	}
-	else
-	{
-		if(isset($_REQUEST['edt']))
-		{	
-			$clientId=$_REQUEST['edt'];	
-			$query="UPDATE ".TABLE_CLIENT." SET 
-								client_rate='".$_REQUEST["rate"]."',
-								client_name='".$_REQUEST["name"]."',
-								client_city='".$_REQUEST["city"]."',
-								client_state='".$_REQUEST["state"]."',
-								client_pincode='".$_REQUEST["pin"]."',
-								client_address='".$_REQUEST["address"]."',
-								client_mobile='".$_REQUEST["contact"]."',
-								client_email='".$_REQUEST["email"]."'
-								WHERE client_id = $clientId";
-			if($db->query($query))
-			{
-				$_SESSION['msg']="<font color='#FF00FF'>Client Info updated Successfully!</font>";
-				echo "<script type='text/javascript'>alert('Client Info updated Successfully!');</script>";
-				header("Location: index.php?c=ntD&cid=$clientId");
-			}
-			else
-			{
-				$_SESSION['msg']="<font color='#FF0000'>Error in process!</font>";  
-			}
-		}
-		else
-		{
-			$query="INSERT INTO ".TABLE_CLIENT." SET 
-								client_rate='".$_REQUEST["rate"]."',
-								client_name='".$_REQUEST["name"]."',
-								client_city='".$_REQUEST["city"]."',
-								client_state='".$_REQUEST["state"]."',
-								client_pincode='".$_REQUEST["pin"]."',
-								client_address='".$_REQUEST["address"]."',
-								client_mobile='".$_REQUEST["contact"]."',
-								client_email='".$_REQUEST["email"]."',
-								client_status='A'";
-								
-			if($db->query($query))
-			{
-				$_SESSION['msg']="<font color='#FF00FF'>Client added Successfully!</font>";
-				echo "<script type='text/javascript'>alert('Client added Successfully!');</script>";
-				header("Location: index.php?c=ntM");
-			}
-			else
-			{
-				$_SESSION['msg']="<font color='#FF0000'>Error in process!</font>";  
-			}
-		}
-	}
-}
-
-if(isset($_REQUEST['edt']))
-{
-	$clientId=$_REQUEST['edt'];
-	$clientSql=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id = $clientId");
-	$ans=$db->fetchNextObject($clientSql);
-	$name=$ans->client_name;
-	$address=$ans->client_address;
-	$city=$ans->client_city;
-	$state=$ans->client_state;
-	$pin=$ans->client_address;
-	$mobile=$ans->client_mobile;
-	$email=$ans->client_email;
-	$rate = $ans->client_rate;
-}
-else
-{
-	$name="";
-	$address="";
-	$city="";
-	$state="";
-	$pin="";
-	$mobile="";
-	$email="";
-	$rate = "";
-}*/
-
-?>
-
 
 <script language="javascript" type="text/javascript">
 
@@ -115,7 +27,7 @@ function myCalFunction(idx)
 	 
 	if(first>0 && second>0)
 	{
-		
+		first = (first/1000);
 		var amtNodes = document.getElementsByName('amount');
 		amount = first * second;
 		amtNodes[idx].innerText=amount;
@@ -234,7 +146,7 @@ function validate()
 									  <th>Consignment No.</th>
 									  <th>Date</th>
 									  <th>Item</th>
-									  <th>Weight in kg</th>
+									  <th>Weight</th>
 									  <th>Rate</th>
 									  <th>From</th>
 									  <th>Destination</th> 

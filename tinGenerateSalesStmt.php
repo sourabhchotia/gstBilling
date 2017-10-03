@@ -10,11 +10,11 @@ $selfDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id='".$cl
 $selfDataQueryResult=$db->fetchNextObject($selfDataQuery);
 
 
-$tbl_name=TABLE_TIN_SALES;
+$tbl_name=TABLE_PACKET;
 if($clientId=='')
 {
-	$query = "SELECT * FROM $tbl_name WHERE tin_sales_bill_date between '$startDate' and '$endDate' GROUP BY tin_sales_bill_number";
-	$queryOut = "SELECT SUM(tin_sales_bill_total_amount) AS sum FROM $tbl_name WHERE tin_sales_bill_date < '$startDate'";
+	$query = "SELECT * FROM $tbl_name WHERE bill_date between '$startDate' and '$endDate' GROUP BY billno";
+	$queryOut = "SELECT SUM(amount) AS sum FROM $tbl_name WHERE bill_date < '$startDate'";
 	$resultOut=$db->query($queryOut);
 	$out = mysql_fetch_assoc($resultOut);
 	if($out['sum']=='') $ttlBal = number_format(0, 2, '.', ''); else $ttlBal = number_format($out['sum'], 2, '.', '');
@@ -23,8 +23,8 @@ if($clientId=='')
 }
 else
 {
-	$query = "SELECT * FROM $tbl_name WHERE tin_sales_bill_party_id = $clientId and tin_sales_bill_date between '$startDate' and '$endDate' GROUP BY tin_sales_bill_number";
-	$queryOut = "SELECT SUM(tin_sales_bill_total_amount) AS sum FROM $tbl_name WHERE tin_sales_bill_party_id = $clientId and tin_sales_bill_date < '$startDate'";
+	$query = "SELECT * FROM $tbl_name WHERE party_id = $clientId and bill_date between '$startDate' and '$endDate' GROUP BY billno";
+	$queryOut = "SELECT SUM(amount) AS sum FROM $tbl_name WHERE party_id = $clientId and bill_date < '$startDate'";
 	$resultOut=$db->query($queryOut);
 	$out = mysql_fetch_assoc($resultOut);
 	if($out['sum']=='') $ttlBal = number_format(0, 2, '.', ''); else $ttlBal = number_format($out['sum'], 2, '.', '');
@@ -37,6 +37,10 @@ else
 $pageResult=$db->query($query);
 
 ?>
+<?php 
+	$db->query("INSERT INTO tbl_stmt_genrate () values ()");
+?> 
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,6 +113,55 @@ $pageResult=$db->query($query);
 		</tr>
 	</table>
 	<table height="100%" width="100%" frame="border" border="1">
+		<tr>
+			<?php
+
+$selfDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id=$clientId");
+$selfDataQueryResult=$db->fetchNextObject($selfDataQuery); 
+if($clientId==0)
+{
+	$clientName = $_POST['clientName'];
+	$clientAddress = $_POST['clientAddress'];
+	$clientPhone = $_POST['clientPhone'];
+	$clientType = '';
+	// $clientTin = '';
+}
+else
+{
+	$clientDataQuery=$db->query("SELECT * FROM ".TABLE_CLIENT." WHERE client_id=$clientId");
+	$clientDataQueryResult=$db->fetchNextObject($clientDataQuery);
+	$clientName = $clientDataQueryResult->client_name;
+	$clientAddress = $clientDataQueryResult->client_address;
+	$clientPhone = $clientDataQueryResult->client_mobile;
+	$clientEmail = $clientDataQueryResult->client_email;
+	// $clientTin = $clientDataQueryResult->client_tin;
+}
+			?>
+			<td style="padding-left:1%; padding-right:1%">
+			<b><u>Party Detail :-</u></b> <br><br>
+			Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :- &nbsp;&nbsp;&nbsp;<b><?php echo $clientName; ?></b><br>
+			Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientAddress; ?><br>
+			Contact No &nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientPhone; ?><br>
+			Party Type &nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientEmail; ?><br>
+			<!-- Party GSTin &nbsp;&nbsp;&nbsp;:- &nbsp;&nbsp;&nbsp;<?php echo $clientTin;?><br><br> -->
+			</td>
+			
+			<td style="padding-left:1%; padding-right:1%;" valign="top">
+			<br>
+			<?php 
+				$a = $db->query("select count(1) FROM tbl_stmt_genrate");
+				$ReceiptId = 0;
+				$out = mysql_fetch_assoc($a);
+				foreach ($out as $key) {
+					$ReceiptId = $key;
+				}
+			?>
+			Receipt No &nbsp;&nbsp;&nbsp;&nbsp; :- &nbsp;&nbsp;&nbsp;<b><?php echo $ReceiptId;?> </b><br>
+			Receipt Date&nbsp; :- &nbsp;&nbsp;&nbsp;<?php echo date("Y/m/d") ?><br>
+			</td>
+		</tr>
+	</table>
+	<table height="100%" width="100%" frame="border" border="1">
 		   <thead>
 			  <tr>
 				 <th>S.N.</th>
@@ -124,33 +177,19 @@ $pageResult=$db->query($query);
 		  </thead>   
 		  <tbody>	
 			  <?php
-				$i=1;
+				$i=0;
 				while($row=$db->fetchNextObject($pageResult))
 				{
 				   if($i==1)
 				   {
 				   ?>
-					<tr align="right" style="font-weight:bold">
-						<td align="center"><?php echo date("d-m-Y", strtotime($startDate)) ?></td>
-						<td align="center"></td>
-						<td align="center"></td>
-						<td align="center">Opening Balance</td>
-						<td align="center"></td>
-						<td align="center"></td>
-						<td style='padding-right:1%; padding-left:1%'><?php echo $ttlBal; ?></td>
-					</tr>
 				<?php
 				   }
 				   $i++;
 				   
-				   $bill = $row->tin_sales_bill_number;
-							   
-					$queryQuantity = "SELECT SUM(tin_sales_bill_quantity) AS sum FROM $tbl_name WHERE tin_sales_bill_number=$bill";
-					$resultQuantity=$db->query($queryQuantity);
-					$sum = mysql_fetch_assoc($resultQuantity);
-					$quantity = $sum['sum'];
+				   $bill = $row->billno;
 					
-					$queryAmount = "SELECT SUM(tin_sales_bill_total_amount) AS sum FROM $tbl_name WHERE tin_sales_bill_number=$bill";
+					$queryAmount = "SELECT SUM(amount) AS sum FROM $tbl_name WHERE billno=$bill";
 					$resultAmount=$db->query($queryAmount);
 					$sum = mysql_fetch_assoc($resultAmount);
 					$amount = $sum['sum']; 
@@ -159,29 +198,29 @@ $pageResult=$db->query($query);
 			  ?>
 			  
 				<tr>
-					<td align="center"><?php echo date("d-m-Y", strtotime($row->tin_sales_bill_date)) ?></td>
-					<td align="center"><?php echo $row->tin_sales_bill_party_name; ?></td>
-					<td align="center"><?php echo $bill; ?></td>
-					<td align="left" style='padding-right:1%; padding-left:1%'><?php echo $row->tin_sales_bill_description; ?></td>
-					<td align="center"><?php echo $quantity;?></td>
-					<td align="right" style='padding-right:1%;'><?php echo $amount; ?></td>
-					<td align="right" style='padding-right:1%;'><?php echo $ttlBal; ?></td>
-				</tr>
+							    <td><?php echo $i ?></td>
+							    <td><?php echo $row->cno ?></td>
+								<td><?php echo date("d-m-Y", strtotime($row->bill_date)) ?></td>
+								<td><?php echo $row->item; ?></td>
+								<!-- <td><?php echo $bill; ?></td> -->
+								<td><?php echo $row->weight; ?></td>
+								<td><?php echo $row->rate; ?></td>
+								<td><?php echo $row->from_city; ?></td>
+								<td><?php echo $row->destination; ?></td>
+								<td><?php echo $amount; ?></td>
+							</tr>
 			
 			<?php
 			
 				}
-			?>                                           
-			 <tr align="center">
-			  <td colspan="8"><br></td>                                         
-			 </tr>                           
+			?>                                                                     
 		  </tbody>
 	 </table> 
 	
 	<table height="100%" width="100%" frame="border" border="1">
 		<tr>
 			<td width="80%" valign="middle">
-				<br><b><div align="center">Closing Balance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><br>
+				<br><b><div align="right">Total &nbsp;</div><br>
 				<div align="left" style='padding-left:1%;'><?php if(ceil($ttlBal)<0) echo "Negative (-)"; echo Show_Amount_In_Words(abs(ceil($ttlBal)));?> Only </div>
 				</b>
 			</td>

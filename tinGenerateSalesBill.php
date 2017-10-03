@@ -30,9 +30,9 @@ else
 
 
 
-$lastBillDataQuery=$db->query("SELECT * FROM ".TABLE_TIN_SALES." ORDER BY tin_sales_bill_number desc LIMIT 1");
+$lastBillDataQuery=$db->query("SELECT * FROM ".TABLE_PACKET." ORDER BY billno desc");
 $lastBillDataQueryResult=$db->fetchNextObject($lastBillDataQuery);
-$billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
+$billNumber = $lastBillDataQueryResult->billno+1;
 
 ?>
 
@@ -83,15 +83,12 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
             
    //      }
    //  });
-		function grand{
-
-				alert("hello");
-				var total = <?php echo $totalAmt; ?>;
-				alert(total);
-				var fuelSurcharge = document.getElementById("fuel").value;
+		function grand(){
+				var total = parseInt(document.getElementById("total").innerHTML);
+				var fuelSurcharge = parseInt(document.getElementById("fuel").value);
 
 				var gTotal = total + fuelSurcharge;
-				document.getElementById("gtotal").value = gTotal;
+				document.getElementById("gtotal").innerHTML = parseFloat(gTotal).toFixed(2);
 
 			return true;
 		}
@@ -232,7 +229,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 					}
 				}
 			?>                                            
-			 <tr align="center">
+			<!--  <tr align="center">
 			  <td><br></td>
 			  <td align="left"><br></td>
 			  <td><br><br><br></td>
@@ -243,7 +240,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 			  <td><br><br><br></td>
 			  <td><br><br><br></td>
 			  <td><br><br><br></td>                                          
-			 </tr>                           
+			 </tr>  -->                          
 		  </tbody>
 	 </table> 
 	
@@ -256,7 +253,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 			
 			<td align="right" style='padding-right:1%'>
 				<table>
-			<tr><td id="total"><?php $totalAmt = number_format((float)$total, 2, '.', ''); echo $totalAmt; ?></td></tr>
+			<tr><td id="total" value="<?php echo $totalAmt; ?>"> <?php $totalAmt = number_format((float)$total, 2, '.', ''); echo $totalAmt; ?></td></tr>
 			<tr><td><input type="text" id="fuel" name="fuel" onfocusout="grand();" style="border: none; width: 50px;"></td></tr></table>
 			</td>
 		</tr>
@@ -267,7 +264,7 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 				<b><div align="right">Grand Total</div></b>
 			</td>
 			<td align="right" style='padding-right:1%'>
-				<b><div id="gtotal"></div></b>
+				<b><div id="gtotal" value = "<?php echo $totalAmt; ?>"><?php echo $totalAmt; ?></div></b>
 			</td>
 		</tr>
 	</table>
@@ -292,15 +289,15 @@ $billNumber = $lastBillDataQueryResult->tin_sales_bill_number+1;
 			</td>
 			
 			<td style="padding-left:1%; padding-right:1%">
-			<br><div align="left" style="border-bottom:dashed"><b>Receiver's Signature : </b><br><br></div>  
-			<div align="right"><h3>For <?php echo $selfDataQueryResult->client_name; ?></h3></div><br><br><br>
-			<div align="right"><h3>Authorised Signatory</h3></div><br>
+			<br><div align="left" style="border-bottom:dashed"><b>Receiver's Signature : </b><br></div>  
+			<div align="right"><h4>For <?php echo $selfDataQueryResult->client_name; ?></h4></div><br>
+			<div align="right"><h4>Authorised Signatory</h4></div><br>
 			</td>
 		</tr>
 	</table>
 	
 </body>
-</html>
+</html> 
 
 <?php
 								
@@ -310,20 +307,17 @@ foreach ($_POST['salesData'] as $value)
 	if($value!='')
 	{
 		$data = explode(",",$value);
-		$db->query("INSERT INTO ".TABLE_TIN_SALES." SET 
-								tin_sales_bill_number=$billNumber,
-								tin_sales_bill_description='$data[1]',
-								tin_sales_bill_quantity=$data[2],
-								tin_sales_bill_unit_price=$data[3],
-								tin_sales_bill_total_price=$data[4],
-								tin_sales_bill_cgst=$data[5],
-								tin_sales_bill_cgst_amount=$data[6],
-								tin_sales_bill_rgst=$data[7],
-								tin_sales_bill_rgst_amount=$data[8],
-								tin_sales_bill_total_amount=$data[9],
-								tin_sales_bill_party_id=$clientId,
-								tin_sales_bill_party_name='$clientName',
-								tin_sales_bill_date='".date("Y-m-d", strtotime($billDate))."'");
+		$db->query("INSERT INTO ".TABLE_PACKET." SET 
+					billno = $billNumber,
+					cno ='$data[1]',
+					bill_date = '".date("Y-m-d", strtotime($billDate))."',
+					item = '$data[3]',
+					weight = '$data[4]',
+					rate = '$data[5] ',
+					from_city = '$data[6]',
+					destination = '$data[7]',
+					amount = '$data[8]'"
+				);
 	}
 }
 ?>
